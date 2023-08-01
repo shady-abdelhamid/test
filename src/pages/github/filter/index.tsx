@@ -1,17 +1,18 @@
-import { Fragment, useReducer, useState } from "react";
+import { Fragment, useEffect, useReducer, useState } from "react";
 import { Input } from "../../../components/UI/Input/input";
 import { Header } from "../header";
 import classes from "./filter.module.css";
 import { Select, Option } from "../../../components/UI/select";
+import { debounce } from "lodash";
 
 const reducer = (state: any, action: { type: any; payload: any }) => {
   switch (action.type) {
-    case "setSearchQuery":
+    case "SEARCH_QUERY":
       return {
         ...state,
         searchQuery: action.payload,
       };
-    case "setSelectedOption":
+    case "SELECTED_OPTION":
       return {
         ...state,
         selectedOption: action.payload,
@@ -32,22 +33,27 @@ export const Filter = ({ filterData }: any) => {
     selectedOption: options[0],
   });
 
-  // const [selectedOption, setSelectedOption] = useState<Option>(options[0]);
-  // const [searchQuery, setSearchQuery] = useState<string>("");
-
   const onValueChangeHandler = (value: string) => {
     const option = options.find((o) => o.value === value);
-    dispatch({ type: "setSelectedOption", payload: option });
+    dispatch({ type: "SELECTED_OPTION", payload: option });
   };
 
   const handleSearchOnChange = (event: any) => {
-    console.log("handleSearchOnChange");
-    // dispatch({ type: "setSearchQuery", payload: event.target.value });
-    // filterData({
-    //   option: state.selectedOption.value,
-    //   searchQuery: state.searchQuery.value,
-    // });
+    debounceSearchQuery(event);
   };
+
+  const debounceSearchQuery = debounce((event: any) => {
+    dispatch({ type: "SEARCH_QUERY", payload: event.target.value });
+  }, 800);
+
+  useEffect(() => {
+    if (state.searchQuery.length >= 3) {
+      filterData({
+        option: state.selectedOption.value,
+        search: state.searchQuery,
+      });
+    }
+  }, [state]);
   return (
     <Fragment>
       <Header />
