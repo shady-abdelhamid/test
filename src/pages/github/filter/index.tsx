@@ -42,22 +42,19 @@ export const Filter = ({ filterData }: any) => {
 
   const handleSearchOnChange = (event: any) => {
     console.log("handleSearchOnChange");
-    dispatch({ type: "setSearchQuery", payload: event.target.value });
-    filterData({
-      option: state.selectedOption.value,
-      searchQuery: state.searchQuery.value,
-    });
+    // dispatch({ type: "setSearchQuery", payload: event.target.value });
+    // filterData({
+    //   option: state.selectedOption.value,
+    //   searchQuery: state.searchQuery.value,
+    // });
   };
   return (
     <Fragment>
       <Header />
       <div className={classes.container}>
         <Input
-          input={{
-            id: "amount_" + 1,
-            type: "string",
-            placeholder: "start typing to search ...",
-          }}
+          type="string"
+          placeholder="start typing to search ..."
           onChange={handleSearchOnChange}
         />
 

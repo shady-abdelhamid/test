@@ -27,6 +27,7 @@ export const Select: FC<SelectProps> = ({ options, ...props }) => {
             {options.map(({ value, label }) => {
               return (
                 <SelectPrimitive.Item
+                  key={value}
                   value={value}
                   className={classes.SelectItem}
                 >

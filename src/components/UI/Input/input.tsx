@@ -1,10 +1,18 @@
 import classes from "./Input.module.css";
 
-export const Input = (props: any) => {
+type inputConfig = {
+  type: string;
+  placeholder: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+export const Input: React.FC<inputConfig> = ({
+  type,
+  placeholder,
+  onChange,
+}) => {
   return (
     <div className={classes.input}>
-      <label htmlFor={props.input.id}>{props.label}</label>
-      <input {...props.input} />
+      <input placeholder={placeholder} onChange={onChange} type={type} />
     </div>
   );
 };

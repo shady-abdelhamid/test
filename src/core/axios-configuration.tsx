@@ -5,7 +5,7 @@ export const customAxios = axios.create({
   headers: {
     // "Content-type": "application/vnd.github+json",
     // Accept: "application/vnd.github+json",
-    Authorization: `Bearer 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`,
+    Authorization: `Bearer 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`,
     // "X-GitHub-Api-Version": "2022-11-28",
 
     // "Content-type": "application/vnd.github+json",
