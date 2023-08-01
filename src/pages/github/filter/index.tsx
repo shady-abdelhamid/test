@@ -49,7 +49,7 @@ export const Filter = ({ filterData }: any) => {
   );
 
   useEffect(() => {
-    if (state.searchQuery.length >= 3) {
+    if (state.searchQuery.length >= 3 && !!state) {
       filterData({
         option: state.selectedOption.value,
         search: state.searchQuery,

@@ -2,6 +2,7 @@ import { FC, Fragment } from "react";
 import { Repositories } from "../../../interfaces/github/repositories.interface";
 import { UserItem, Users } from "../../../interfaces/github/users.interface";
 import classes from "./styles.module.scss";
+
 export const UserCard: FC<any> = (props: any) => {
   return (
     <Fragment>

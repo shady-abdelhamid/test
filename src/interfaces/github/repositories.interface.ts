@@ -3,7 +3,7 @@ export interface Repositories {
   items: Array<RepositoryItem>;
   total_count: number;
 }
-interface RepositoryItem {
+export interface RepositoryItem {
   id: number;
   node_id: string;
   name: string;
