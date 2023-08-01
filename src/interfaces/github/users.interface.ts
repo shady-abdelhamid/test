@@ -1,9 +1,9 @@
 export interface Users {
   incomplete_results: boolean;
-  items: Array<userItem>;
+  items: Array<UserItem>;
   total_count: number;
 }
-interface userItem {
+export interface UserItem {
   id: number;
   avatar_url: string;
   events_url: string;
