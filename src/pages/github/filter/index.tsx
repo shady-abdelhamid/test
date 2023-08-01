@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useReducer, useState } from "react";
+import { Fragment, useCallback, useEffect, useReducer, useState } from "react";
 import { Input } from "../../../components/UI/Input/input";
 import { Header } from "../header";
 import classes from "./filter.module.css";
@@ -21,13 +21,12 @@ const reducer = (state: any, action: { type: any; payload: any }) => {
       return state;
   }
 };
+const options: Option[] = [
+  { value: "users", label: "Users" },
+  { value: "repositories", label: "Repositories" },
+];
 
 export const Filter = ({ filterData }: any) => {
-  const options: Option[] = [
-    { value: "users", label: "Users" },
-    { value: "repositories", label: "Repositories" },
-  ];
-
   const [state, dispatch] = useReducer(reducer, {
     searchQuery: "",
     selectedOption: options[0],
@@ -42,9 +41,12 @@ export const Filter = ({ filterData }: any) => {
     debounceSearchQuery(event);
   };
 
-  const debounceSearchQuery = debounce((event: any) => {
-    dispatch({ type: "SEARCH_QUERY", payload: event.target.value });
-  }, 800);
+  const debounceSearchQuery = useCallback(
+    debounce((event: any) => {
+      dispatch({ type: "SEARCH_QUERY", payload: event.target.value });
+    }, 800),
+    [],
+  );
 
   useEffect(() => {
     if (state.searchQuery.length >= 3) {
@@ -53,7 +55,8 @@ export const Filter = ({ filterData }: any) => {
         search: state.searchQuery,
       });
     }
-  }, [state]);
+  }, [state.searchQuery, state.selectedOption]);
+
   return (
     <Fragment>
       <Header />
