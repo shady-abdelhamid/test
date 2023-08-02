@@ -21,11 +21,11 @@ export const List = () => {
       try {
         setIsLoading(true);
         let res: any;
-        if (filter && filter.option === "users") {
+        if (filter && filter.search.length >= 3&& filter.option === "users") {
           res = await getUsers(filter.search);
         setDate(res?.data);
 
-        } else if (filter && filter.option === "repositories") {
+        } else if (filter && filter.search.length >= 3 && filter.option === "repositories") {
           res = await getRepositories(filter.search);
         setDate(res?.data);
 
