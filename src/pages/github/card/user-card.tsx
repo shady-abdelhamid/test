@@ -1,25 +1,23 @@
 import { FC, Fragment } from "react";
-import { Repositories } from "../../../interfaces/github/repositories.interface";
 import { UserItem, Users } from "../../../interfaces/github/users.interface";
 import classes from "./styles.module.scss";
 
 export const UserCard: FC<any> = (props: any) => {
   return (
     <Fragment>
-      <section className={classes.card}>
+      <section className={classes["user_card"]}>
         {props?.data?.items?.map((item: UserItem) => (
           <a
             href={item.html_url}
-            className={classes["card__item"]}
+            className={classes["user_card__item"]}
             key={item?.id}
             target="_blank"
           >
-            <div className={classes.avatar}>
+            <div className={classes["user_avatar"]}>
               <img src={item?.avatar_url} />
             </div>
-            <div className={classes.name}>
-              <h3>{item?.login}</h3>
-              <p>{item.type}</p>
+            <div className={classes["user_name"]}>
+              <h4>{item?.login}</h4>
             </div>
           </a>
         ))}

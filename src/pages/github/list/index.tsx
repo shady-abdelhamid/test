@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useReducer } from "react";
 import { UserCard } from "../card/user-card";
 import { Filter } from "../filter";
 import { Loader } from "../../../components/UI/loaders";
@@ -7,39 +7,66 @@ import { Users } from "../../../interfaces/github/users.interface";
 import { Repositories } from "../../../interfaces/github/repositories.interface";
 import { RepositoryCard } from "../card/repository-card";
 
+const initialState = {
+  data: [],
+  isLoading: false,
+  filter: { search: "", option: "" },
+};
+
+const reducer = (state: any, action: any) => {
+  switch (action.type) {
+    case "SET_DATA":
+      return { ...state, data: action.payload };
+    case "SET_LOADING":
+      return { ...state, isLoading: action.payload };
+    case "SET_FILTER":
+      return { ...state, filter: action.payload };
+    default:
+      return state;
+  }
+};
+
 export const List = () => {
-  const [data, setDate] = useState<any>([]);
-  const [filter, setFilter] = useState<{ search: string; option: string }>({
-    search: "",
-    option: "",
-  });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   useEffect(() => {
-    if (filter && filter.option === "users") {
-      setIsLoading(true);
-      getUsers(filter.search).then((res) => {
-        setDate(res.data);
-        setIsLoading(false);
-      });
-    } else if (filter && filter.option === "repositories") {
-      setIsLoading(true);
-      getRepositories(filter.search).then((res) => {
-        setDate(res.data);
-        setIsLoading(false);
-      });
-    } else {
-      setDate([]);
-    }
-  }, [filter]);
+    const fetchData = async () => {
+      try {
+        dispatch({ type: "SET_LOADING", payload: true });
+        let res: any;
+        if (state.filter && state.filter.option === "users") {
+          res = await getUsers(state.filter.search);
+        } else if (state.filter && state.filter.option === "repositories") {
+          res = await getRepositories(state.filter.search);
+        } else {
+          dispatch({ type: "SET_DATA", payload: "" });
+        }
+        dispatch({ type: "SET_DATA", payload: res.data });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        dispatch({ type: "SET_LOADING", payload: false });
+      }
+    };
+    fetchData();
+  }, [state.filter]);
+
   const onDataReceived = (filterData: any) => {
-    setFilter(filterData);
+    dispatch({ type: "SET_FILTER", payload: filterData });
   };
+
   return (
-    <Fragment>
+    <>
       <Filter filterData={onDataReceived} />
-      {/* {!isLoading && filter && <UserCard data={data} />} */}
-      {!isLoading && filter && <RepositoryCard data={data} />}
-      {isLoading && filter && <Loader count={40} />}
-    </Fragment>
+      {state.filter &&
+        !state.isLoading &&
+        state.filter.option === "repositories" && (
+          <RepositoryCard data={state.data} />
+        )}
+      {state.filter && !state.isLoading && state.filter.option === "users" && (
+        <UserCard data={state.data} />
+      )}
+      {state.isLoading && state.filter && <Loader count={40} />}
+    </>
   );
 };
