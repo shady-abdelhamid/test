@@ -11,7 +11,9 @@ const reducer = (state: any, action: { type: any; payload: any }) => {
       return {
         ...state,
         searchQuery: action.payload,
-        animatedClass: action.payload ? "align-items-start" : "align-items-center",
+        animatedClass: action.payload
+          ? "align-items-start"
+          : "align-items-center",
       };
     case "SELECTED_OPTION":
       return {
@@ -52,15 +54,15 @@ export const Filter = ({ filterData }: any) => {
   );
 
   useEffect(() => {
-      filterData({
-        option: state.selectedOption.value,
-        search: state.searchQuery,
-      });
+    filterData({
+      option: state.selectedOption.value,
+      search: state.searchQuery,
+    });
   }, [state.searchQuery, state.selectedOption]);
 
   return (
     <section className={`${classes[state.animatedClass]} ${classes.container}`}>
-      <div >
+      <div>
         <Header />
         <div className={classes.controls}>
           <Input

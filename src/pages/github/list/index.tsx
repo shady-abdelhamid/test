@@ -16,19 +16,21 @@ export const List = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
     console.log(filter);
-    
+
     const fetchData = async () => {
       try {
         setIsLoading(true);
         let res: any;
-        if (filter && filter.search.length >= 3&& filter.option === "users") {
+        if (filter && filter.search.length >= 3 && filter.option === "users") {
           res = await getUsers(filter.search);
-        setDate(res?.data);
-
-        } else if (filter && filter.search.length >= 3 && filter.option === "repositories") {
+          setDate(res?.data);
+        } else if (
+          filter &&
+          filter.search.length >= 3 &&
+          filter.option === "repositories"
+        ) {
           res = await getRepositories(filter.search);
-        setDate(res?.data);
-
+          setDate(res?.data);
         } else {
           setDate([]);
         }
@@ -45,21 +47,17 @@ export const List = () => {
   };
 
   const RenderResult = () => {
-    if (!isLoading && filter.search &&filter.option === "repositories") {
+    if (!isLoading && filter.search && filter.option === "repositories") {
       return <RepositoryCard data={data} />;
     } else if (!isLoading && filter.search && filter.option === "users") {
       return <UserCard data={data} />;
-    } 
-    else if (isLoading) {
+    } else if (isLoading) {
       return <Loader count={40} />;
-    }
-     else {
+    } else {
       return <p>start typing to fetch Data</p>;
     }
   };
 
-
-  
   return (
     <Fragment>
       <Filter filterData={onDataReceived} />
