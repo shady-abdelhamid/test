@@ -15,6 +15,8 @@ export const List = () => {
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
+    console.log(filter);
+    
     const fetchData = async () => {
       try {
         setIsLoading(true);
