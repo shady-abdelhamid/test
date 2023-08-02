@@ -16,7 +16,7 @@ const App = () => {
         <main>
           <Routes>
             {routes.map((route) => (
-              <Route path={route.path} element={route.element} />
+              <Route path={route.path} element={route.element} key={route.path}/>
             ))}
             <Route path="*" element={<Navigate to="/home" replace />} />
           </Routes>
