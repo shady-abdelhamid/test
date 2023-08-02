@@ -45,18 +45,21 @@ export const List = () => {
   };
 
   const RenderResult = () => {
-    if (!filter) {
-      return <p>No Data</p>;
-    } else if (!isLoading && filter.option === "repositories") {
+    if (!isLoading && filter.search &&filter.option === "repositories") {
       return <RepositoryCard data={data} />;
-    } else if (!isLoading && filter.option === "users") {
+    } else if (!isLoading && filter.search && filter.option === "users") {
       return <UserCard data={data} />;
-    } else if (isLoading && filter) {
+    } 
+    else if (isLoading) {
       return <Loader count={40} />;
-    } else {
-      return <p>No Data</p>;
+    }
+     else {
+      return <p>start typing to fetch Data</p>;
     }
   };
+
+
+  
   return (
     <Fragment>
       <Filter filterData={onDataReceived} />
