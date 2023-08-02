@@ -3,21 +3,22 @@ import { FaStar, FaCircle } from "react-icons/fa";
 import { BiGitRepoForked } from "react-icons/bi";
 import { BsEye } from "react-icons/bs";
 import {
-  Repositories,
   RepositoryItem,
 } from "../../../interfaces/github/repositories.interface";
 import classes from "./styles.module.scss";
 
-export const RepositoryCard: FC<any> = (props: any) => {
+type RepositoryCardProps = {
+  item: RepositoryItem;
+};
+
+export const RepositoryCard: FC<RepositoryCardProps> = ({ item }) => {
   return (
-    <Fragment>
-      <section className={classes["repo_card"]}>
-        {props?.data?.items?.map((item: RepositoryItem) => (
+   
           <a
             href={item.html_url}
             className={classes["repo_card__item"]}
             key={item?.id}
-            target="_blank"
+            target="_blank" rel="noreferrer"
           >
             <div className={classes["repo_statistics_container"]}>
               <span>
@@ -46,8 +47,6 @@ export const RepositoryCard: FC<any> = (props: any) => {
               </div>
             </div>
           </a>
-        ))}
-      </section>
-    </Fragment>
+     
   );
 };

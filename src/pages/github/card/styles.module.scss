@@ -1,4 +1,4 @@
-.user_card {
+.card {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -41,14 +41,7 @@ a {
   word-wrap: break-word;
 }
 
-.repo_card {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 15px;
-}
+
 
 .repo_card__item {
   border: 1px solid #ccc;

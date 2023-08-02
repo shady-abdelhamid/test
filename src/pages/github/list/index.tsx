@@ -3,15 +3,23 @@ import { UserCard } from "../card/user-card";
 import { Filter } from "../filter";
 import { Loader } from "../../../components/UI/loaders";
 import { getRepositories, getUsers } from "../../../api";
-import { Users } from "../../../interfaces/github/users.interface";
-import { Repositories } from "../../../interfaces/github/repositories.interface";
+import { UserItem, Users } from "../../../interfaces/github/users.interface";
+import {
+  Repositories,
+  RepositoryItem,
+} from "../../../interfaces/github/repositories.interface";
 import { RepositoryCard } from "../card/repository-card";
+import { Card } from "../card/card";
+import classes from "../card/styles.module.scss";
 
 export const List = () => {
   const [data, setDate] = useState<any>([]);
-  const [filter, setFilter] = useState<{ search: string; option: string }>({
+  const [filter, setFilter] = useState<{
+    search: string;
+    option: "users" | "repositories" | null;
+  }>({
     search: "",
-    option: "",
+    option: null,
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
@@ -47,10 +55,15 @@ export const List = () => {
   };
 
   const RenderResult = () => {
-    if (!isLoading && filter.search && filter.option === "repositories") {
-      return <RepositoryCard data={data} />;
-    } else if (!isLoading && filter.search && filter.option === "users") {
-      return <UserCard data={data} />;
+    if (!isLoading && filter.search) {
+      return (
+        <section className={classes["card"]}>
+          {data?.items?.map(
+            (item: UserItem | RepositoryItem) =>
+              filter.option && <Card type={filter.option} item={item} />
+          )}
+        </section>
+      );
     } else if (isLoading) {
       return <Loader count={40} />;
     } else {
