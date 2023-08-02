@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useReducer, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { Input } from "../../../components/UI/Input/input";
 import { Header } from "../header";
 import classes from "./filter.module.css";
@@ -11,11 +11,13 @@ const reducer = (state: any, action: { type: any; payload: any }) => {
       return {
         ...state,
         searchQuery: action.payload,
+        animatedClass: "align-items-start",
       };
     case "SELECTED_OPTION":
       return {
         ...state,
         selectedOption: action.payload,
+        animatedClass: "align-items-start",
       };
     default:
       return state;
@@ -30,6 +32,7 @@ export const Filter = ({ filterData }: any) => {
   const [state, dispatch] = useReducer(reducer, {
     searchQuery: "",
     selectedOption: options[0],
+    animatedClass: "align-items-center",
   });
 
   const onValueChangeHandler = (value: string) => {
@@ -58,21 +61,23 @@ export const Filter = ({ filterData }: any) => {
   }, [state.searchQuery, state.selectedOption]);
 
   return (
-    <Fragment>
-      <Header />
-      <div className={classes.container}>
-        <Input
-          type="string"
-          placeholder="start typing to search ..."
-          onChange={handleSearchOnChange}
-        />
+    <section className={`${classes[state.animatedClass]} ${classes.container}`}>
+      <div >
+        <Header />
+        <div className={classes.controls}>
+          <Input
+            type="string"
+            placeholder="start typing to search ..."
+            onChange={handleSearchOnChange}
+          />
 
-        <Select
-          options={options}
-          defaultValue={state.selectedOption.value}
-          onValueChange={onValueChangeHandler}
-        ></Select>
+          <Select
+            options={options}
+            defaultValue={state.selectedOption.value}
+            onValueChange={onValueChangeHandler}
+          ></Select>
+        </div>
       </div>
-    </Fragment>
+    </section>
   );
 };
